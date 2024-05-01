@@ -1,0 +1,69 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
+group = 'com.cyber.security.lab'
+version = '1.0-SNAPSHOT'
+
+subprojects {
+    apply plugin: 'java'
+
+    group = rootProject.group
+    version = rootProject.version
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
+
+    dependencies {
+        compileOnly libs.lombok
+        implementation libs.lombok
+        annotationProcessor libs.lombok
+
+
+        testImplementation libs.jupiter
+    }
+
+    repositories {
+        mavenCentral{
+            allowInsecureProtocol = true
+        }
+        maven {
+            url = "http://oss.sonatype.org/content/repositories/snapshots"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url = "http://repo.maven.apache.org/maven2"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url = "http://jcenter.bintray.com"
+            allowInsecureProtocol = true
+        }
+
+    }
+
+    test {
+        jvmArgs([
+                '--enable-preview',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED'
+        ])
+        useJUnitPlatform()
+        systemProperty "junit.jupiter.extensions.autodetection.enabled", "true"
+        testLogging {
+            showStandardStreams = true
+            exceptionFormat TestExceptionFormat.FULL
+            showExceptions true
+            showCauses true
+            showStackTraces true
+        }
+    }
+}

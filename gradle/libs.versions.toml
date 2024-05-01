@@ -1,0 +1,6 @@
+[libraries]
+lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
+jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.0" }
+netty = { module = "io.netty:netty-all", version = "4.1.109.Final" }
+guice = { module = "com.google.inject:guice", version = "7.0.0" }
+jackson = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.17.0" }

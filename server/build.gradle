@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':json-common')
+
+    implementation libs.guice
+    implementation libs.netty
+}

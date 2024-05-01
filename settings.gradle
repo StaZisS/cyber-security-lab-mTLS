@@ -1,0 +1,5 @@
+rootProject.name = 'cybersecurity-lab'
+include 'client'
+include 'server'
+include 'json-common'
+
