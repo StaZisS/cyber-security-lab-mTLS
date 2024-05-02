@@ -6,6 +6,7 @@ public class CertificateRepository {
     private String serverCertificate;
     private String serverPublicKey;
 
+    //TODO: Изменить на реальные данные
     public CertificateEntity getClientCertificate() {
         return new CertificateEntity(
                 "certificate",
