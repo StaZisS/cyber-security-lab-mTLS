@@ -2,7 +2,8 @@ package com.cyber.security.lab;
 
 public enum ResponseTypeEnum {
     MESSAGE("message", true),
-    AUTH("auth", false),
+    SERVER_CHECK("server_check", false),
+    CLIENT_CHECK("client_check", false),
     ;
 
     final String value;

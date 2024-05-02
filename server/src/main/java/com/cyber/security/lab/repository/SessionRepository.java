@@ -1,6 +1,6 @@
 package com.cyber.security.lab.repository;
 
-import org.example.entity.SessionEntity;
+import com.cyber.security.lab.entity.SessionEntity;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionRepository {
     private final Map<String, SessionEntity> sessions = new ConcurrentHashMap<>();
 
-    public void createSession(String sessionId) {
-        sessions.put(sessionId, new SessionEntity(sessionId));
+    public void createSession(SessionEntity session) {
+        sessions.put(session.sessionId(), session);
     }
 
     public SessionEntity getSession(String sessionId) {
@@ -18,5 +18,9 @@ public class SessionRepository {
 
     public void deleteSession(String sessionId) {
         sessions.remove(sessionId);
+    }
+
+    public void updateSession(SessionEntity session) {
+        sessions.put(session.sessionId(), session);
     }
 }

@@ -2,14 +2,15 @@ package com.cyber.security.lab.config;
 
 import com.cyber.security.lab.handler.CommandHandler;
 import com.cyber.security.lab.ServerInitializer;
-import com.cyber.security.lab.handler.auth.AuthenticationHandler;
+import com.cyber.security.lab.handler.auth.ClientCheckHandler;
+import com.cyber.security.lab.handler.auth.ServerCheckHandler;
 import com.cyber.security.lab.handler.business_logic.MessageHandler;
+import com.cyber.security.lab.repository.CertificateRepository;
 import com.cyber.security.lab.repository.SessionRepository;
-import com.cyber.security.lab.repository.UserRepository;
 import com.cyber.security.lab.service.AuthenticationService;
 import com.cyber.security.lab.service.AuthenticationServiceImpl;
-import com.cyber.security.lab.service.SessionManager;
-import com.cyber.security.lab.service.SessionManagerImpl;
+import com.cyber.security.lab.service.SessionService;
+import com.cyber.security.lab.service.SessionServiceImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 
@@ -19,12 +20,13 @@ public class BillingModule extends AbstractModule {
         bind(ServerInitializer.class).asEagerSingleton();
 
         bind(SessionRepository.class).asEagerSingleton();
-        bind(UserRepository.class).asEagerSingleton();
+        bind(CertificateRepository.class).asEagerSingleton();
         bind(AuthenticationService.class).to(AuthenticationServiceImpl.class);
-        bind(SessionManager.class).to(SessionManagerImpl.class);
+        bind(SessionService.class).to(SessionServiceImpl.class);
 
         Multibinder<CommandHandler> multibinder = Multibinder.newSetBinder(binder(), CommandHandler.class);
-        multibinder.addBinding().to(AuthenticationHandler.class);
+        multibinder.addBinding().to(ServerCheckHandler.class);
+        multibinder.addBinding().to(ClientCheckHandler.class);
         multibinder.addBinding().to(MessageHandler.class);
     }
 

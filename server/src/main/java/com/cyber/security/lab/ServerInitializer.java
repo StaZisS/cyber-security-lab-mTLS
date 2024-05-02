@@ -3,7 +3,7 @@ package com.cyber.security.lab;
 import com.cyber.security.lab.handler.CommandHandler;
 import com.cyber.security.lab.handler.CommandRouter;
 import com.cyber.security.lab.handler.CommandType;
-import com.cyber.security.lab.service.SessionManager;
+import com.cyber.security.lab.service.SessionService;
 import com.google.inject.Inject;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     private final Map<ResponseTypeEnum, CommandHandler> handlers;
-    private final SessionManager sessionManager;
+    private final SessionService sessionService;
 
     @Inject
-    public ServerInitializer(Set<CommandHandler> commandHandlers, SessionManager sessionManager) {
+    public ServerInitializer(Set<CommandHandler> commandHandlers, SessionService sessionService) {
         this.handlers = commandHandlers.stream()
                 .collect(Collectors.toMap(handler -> {
                     CommandType annotation = handler.getClass().getAnnotation(CommandType.class);
@@ -28,13 +28,13 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
                     }
                     throw new IllegalArgumentException("Command handler is missing CommandType annotation");
                 }, Function.identity()));
-        this.sessionManager = sessionManager;
+        this.sessionService = sessionService;
     }
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline().addLast(new JsonDecoder(), new JsonEncoder());
         socketChannel.pipeline().addLast(new ChunkedWriteHandler());
-        socketChannel.pipeline().addLast(new CommandRouter(handlers, sessionManager));
+        socketChannel.pipeline().addLast(new CommandRouter(handlers, sessionService));
     }
 }

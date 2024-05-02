@@ -4,7 +4,8 @@ import com.cyber.security.lab.JsonUtils;
 import com.cyber.security.lab.ResponseTypeEnum;
 import com.cyber.security.lab.ResponseUserUtils;
 import com.cyber.security.lab.body.ResponseBody;
-import com.cyber.security.lab.service.SessionManager;
+import com.cyber.security.lab.public_interface.CreateSessionDto;
+import com.cyber.security.lab.service.SessionService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -13,17 +14,22 @@ import java.util.Map;
 
 public class CommandRouter extends SimpleChannelInboundHandler<ResponseBody> {
     private final Map<ResponseTypeEnum, CommandHandler> handlers;
-    private final SessionManager sessionManager;
+    private final SessionService sessionService;
 
-    public CommandRouter(Map<ResponseTypeEnum, CommandHandler> handlers, SessionManager sessionManager) {
+    public CommandRouter(Map<ResponseTypeEnum, CommandHandler> handlers, SessionService sessionService) {
         this.handlers = handlers;
-        this.sessionManager = sessionManager;
+        this.sessionService = sessionService;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        var sessionId = SessionManager.getSessionId(ctx);
-        sessionManager.createSession(sessionId);
+        var sessionId = SessionService.getSessionId(ctx);
+        var dto = new CreateSessionDto(
+                sessionId,
+                "",
+                ""
+        );
+        sessionService.createSession(dto);
     }
 
     @Override
@@ -35,8 +41,8 @@ public class CommandRouter extends SimpleChannelInboundHandler<ResponseBody> {
         }
 
         if (type.isAuthRequired()) {
-            var sessionId = SessionManager.getSessionId(ctx);
-            if (!sessionManager.isSessionAuthenticated(sessionId)) {
+            var sessionId = SessionService.getSessionId(ctx);
+            if (!sessionService.isSessionAuthenticated(sessionId)) {
                 ResponseUserUtils.sendError(ctx, "User is not authorized");
                 return;
             }
@@ -49,14 +55,14 @@ public class CommandRouter extends SimpleChannelInboundHandler<ResponseBody> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        var sessionId = SessionManager.getSessionId(ctx);
-        sessionManager.deleteSession(sessionId);
+        var sessionId = SessionService.getSessionId(ctx);
+        sessionService.deleteSession(sessionId);
         ctx.close();
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        var sessionId = SessionManager.getSessionId(ctx);
-        sessionManager.deleteSession(sessionId);
+        var sessionId = SessionService.getSessionId(ctx);
+        sessionService.deleteSession(sessionId);
     }
 }

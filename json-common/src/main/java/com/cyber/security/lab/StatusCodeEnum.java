@@ -8,4 +8,8 @@ public enum StatusCodeEnum {
     StatusCodeEnum(int value) {
         this.value = value;
     }
+
+    public int getValue() {
+        return value;
+    }
 }
