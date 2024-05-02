@@ -64,6 +64,12 @@ public class ClientApp {
 
                         certificateRepository.setServerCertificate(serverCheckResponseDto.certificate());
                         certificateRepository.setServerPublicKey(serverCheckResponseDto.publicKey());
+
+                        var isCertificateCorrect = authenticationService.isCorrectCertificate(serverCheckResponseDto.certificate(), serverCheckResponseDto.publicKey());
+                        if (!isCertificateCorrect) {
+                            userInterface.showErrorMessage("Server check failed. Reason: Invalid certificate.");
+                            return;
+                        }
                         clientCheck(serverCheckResponseDto);
                     } else {
                         userInterface.showErrorMessage("Server check failed. Reason: %s.".formatted(responseBody.getBody()));
