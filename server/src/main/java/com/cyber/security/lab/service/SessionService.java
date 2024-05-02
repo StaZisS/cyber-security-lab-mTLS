@@ -15,7 +15,14 @@ public interface SessionService {
     boolean isSessionAuthenticated(String sessionId);
 
     void setSessionAuthenticated(String sessionId, boolean isAuthorized);
+
     void setCertificateAndPublicKey(String sessionId, String certificate, String publicKey);
+
     void setTestMessage(String sessionId, String testMessage);
+
     String getTestMessage(String sessionId);
+
+    String getCertificate(String sessionId);
+
+    String getPublicKey(String sessionId);
 }

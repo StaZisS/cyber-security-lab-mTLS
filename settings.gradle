@@ -3,4 +3,5 @@ include 'client'
 include 'server'
 include 'json-common'
 include 'auth-common'
+include 'public_interface'
 

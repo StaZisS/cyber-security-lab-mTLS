@@ -78,4 +78,14 @@ public class SessionServiceImpl implements SessionService {
     public String getTestMessage(String sessionId) {
         return sessionRepository.getSession(sessionId).testMessage();
     }
+
+    @Override
+    public String getCertificate(String sessionId) {
+        return sessionRepository.getSession(sessionId).certificate();
+    }
+
+    @Override
+    public String getPublicKey(String sessionId) {
+        return sessionRepository.getSession(sessionId).publicKey();
+    }
 }

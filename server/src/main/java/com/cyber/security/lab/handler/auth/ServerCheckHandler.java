@@ -6,8 +6,8 @@ import com.cyber.security.lab.ResponseTypeEnum;
 import com.cyber.security.lab.ResponseUserUtils;
 import com.cyber.security.lab.handler.CommandHandler;
 import com.cyber.security.lab.handler.CommandType;
-import com.cyber.security.lab.public_interface.ServerCheckRequestDto;
-import com.cyber.security.lab.public_interface.ServerCheckResponseDto;
+import com.cyber.security.lab.ServerCheckRequestDto;
+import com.cyber.security.lab.ServerCheckResponseDto;
 import com.cyber.security.lab.repository.CertificateRepository;
 import com.cyber.security.lab.service.SessionService;
 import com.google.inject.Inject;
@@ -59,6 +59,11 @@ public class ServerCheckHandler implements CommandHandler {
     }
 
     private String generateRandomString() {
-        return String.valueOf(RANDOM.nextInt());
+        return RANDOM.ints(48, 122)
+                .filter(i -> (i < 57 || i > 65) && (i < 90 || i > 97))
+                .mapToObj(i -> (char) i)
+                .limit(10)
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
     }
 }

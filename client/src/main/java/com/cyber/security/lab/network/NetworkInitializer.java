@@ -1,7 +1,7 @@
 package com.cyber.security.lab.network;
 
-import com.cyber.security.lab.JsonDecoder;
-import com.cyber.security.lab.JsonEncoder;
+import com.cyber.security.lab.config.JsonDecoder;
+import com.cyber.security.lab.config.JsonEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.socket.SocketChannel;
