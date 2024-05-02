@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     implementation project(':json-common')
+    implementation project(':auth-common')
 
     implementation libs.guice
     implementation libs.netty

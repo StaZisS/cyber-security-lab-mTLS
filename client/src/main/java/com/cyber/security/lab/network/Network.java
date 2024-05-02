@@ -1,8 +1,8 @@
 package com.cyber.security.lab.network;
 
+import com.cyber.security.lab.body.RequestBody;
+import com.cyber.security.lab.body.ResponseBody;
 import com.cyber.security.lab.utils.Callback;
-import com.cyber.security.lab.RequestBody;
-import com.cyber.security.lab.ResponseBody;
 
 import java.util.concurrent.CompletableFuture;
 

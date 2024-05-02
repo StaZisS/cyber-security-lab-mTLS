@@ -1,6 +1,6 @@
 package com.cyber.security.lab.network;
 
-import com.cyber.security.lab.ResponseBody;
+import com.cyber.security.lab.body.ResponseBody;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;

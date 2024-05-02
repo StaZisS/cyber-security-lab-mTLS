@@ -1,5 +1,6 @@
 package com.cyber.security.lab.handler.auth;
 
+import com.cyber.security.lab.AuthenticationService;
 import com.cyber.security.lab.JsonUtils;
 import com.cyber.security.lab.ResponseTypeEnum;
 import com.cyber.security.lab.ResponseUserUtils;
@@ -8,7 +9,6 @@ import com.cyber.security.lab.handler.CommandType;
 import com.cyber.security.lab.public_interface.ClientCheckRequestDto;
 import com.cyber.security.lab.public_interface.ClientCheckResponseDto;
 import com.cyber.security.lab.repository.CertificateRepository;
-import com.cyber.security.lab.service.AuthenticationService;
 import com.cyber.security.lab.service.SessionService;
 import com.google.inject.Inject;
 import io.netty.channel.ChannelHandlerContext;

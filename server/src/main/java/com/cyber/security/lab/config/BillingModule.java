@@ -1,5 +1,7 @@
 package com.cyber.security.lab.config;
 
+import com.cyber.security.lab.AuthenticationService;
+import com.cyber.security.lab.AuthenticationServiceImpl;
 import com.cyber.security.lab.handler.CommandHandler;
 import com.cyber.security.lab.ServerInitializer;
 import com.cyber.security.lab.handler.auth.ClientCheckHandler;
@@ -7,8 +9,6 @@ import com.cyber.security.lab.handler.auth.ServerCheckHandler;
 import com.cyber.security.lab.handler.business_logic.MessageHandler;
 import com.cyber.security.lab.repository.CertificateRepository;
 import com.cyber.security.lab.repository.SessionRepository;
-import com.cyber.security.lab.service.AuthenticationService;
-import com.cyber.security.lab.service.AuthenticationServiceImpl;
 import com.cyber.security.lab.service.SessionService;
 import com.cyber.security.lab.service.SessionServiceImpl;
 import com.google.inject.AbstractModule;

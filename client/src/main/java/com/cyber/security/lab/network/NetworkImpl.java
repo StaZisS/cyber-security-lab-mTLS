@@ -1,8 +1,8 @@
 package com.cyber.security.lab.network;
 
+import com.cyber.security.lab.body.RequestBody;
+import com.cyber.security.lab.body.ResponseBody;
 import com.cyber.security.lab.utils.Callback;
-import com.cyber.security.lab.RequestBody;
-import com.cyber.security.lab.ResponseBody;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;

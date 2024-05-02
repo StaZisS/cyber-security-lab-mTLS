@@ -1,4 +1,4 @@
-package com.cyber.security.lab.service;
+package com.cyber.security.lab;
 
 
 public interface AuthenticationService {
