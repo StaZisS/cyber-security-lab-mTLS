@@ -29,14 +29,14 @@ public class MessageHandler implements CommandHandler {
     @Override
     public void handle(Object body, ChannelHandlerContext ctx) {
         var sessionId = SessionService.getSessionId(ctx);
-        var clientPublicKey = sessionService.getPublicKey(sessionId);
+        var clientCertificate = sessionService.getCertificate(sessionId);
         var serverCertificate = certificateRepository.getCertificate();
         try {
             MessageRequestDto dto = JsonUtils.fromJson(body, MessageRequestDto.class);
-            var decryptedMessage = authService.decryptMessage(serverCertificate.privateKey(), dto.encryptedClientMessage());
+            var decryptedMessage = authService.decryptMessage(serverCertificate.privateKeyPath(), dto.encryptedClientMessage());
 
             var processedMessage = handleMessage(decryptedMessage);
-            var encryptMessage = authService.encryptMessage(clientPublicKey, processedMessage);
+            var encryptMessage = authService.encryptMessage(clientCertificate, processedMessage);
 
             var response = new MessageResponseDto(encryptMessage);
             ResponseUserUtils.sendOk(ctx, response);

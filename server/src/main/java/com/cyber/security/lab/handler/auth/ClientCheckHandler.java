@@ -37,7 +37,7 @@ public class ClientCheckHandler implements CommandHandler {
                 ResponseUserUtils.sendError(ctx, "Invalid decrypted message.");
             } else {
                 var certificate = certificateRepository.getCertificate();
-                var decryptedTestMessage = authService.decryptMessage(certificate.privateKey(), dto.encryptedClientMessage());
+                var decryptedTestMessage = authService.decryptMessage(certificate.privateKeyPath(), dto.encryptedClientMessage());
 
                 sessionService.setSessionAuthenticated(sessionId, true);
 

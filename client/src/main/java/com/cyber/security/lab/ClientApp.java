@@ -65,7 +65,7 @@ public class ClientApp {
                         certificateRepository.setServerCertificate(serverCheckResponseDto.certificate());
                         certificateRepository.setServerPublicKey(serverCheckResponseDto.publicKey());
 
-                        var isCertificateCorrect = authenticationService.isCorrectCertificate(serverCheckResponseDto.certificate(), serverCheckResponseDto.publicKey());
+                        var isCertificateCorrect = authenticationService.isCorrectCertificate(serverCheckResponseDto.certificate());
                         if (!isCertificateCorrect) {
                             userInterface.showErrorMessage("Server check failed. Reason: Invalid certificate.");
                             return;
@@ -85,8 +85,8 @@ public class ClientApp {
     private void clientCheck(ServerCheckResponseDto dto) {
         var certificate = certificateRepository.getClientCertificate();
         var randomString = getRandomString();
-        var decryptedServerMessage = authenticationService.decryptMessage(certificate.privateKey(), dto.encryptedMessage());
-        var encryptedClientMessage = authenticationService.encryptMessage(dto.publicKey(), randomString);
+        var decryptedServerMessage = authenticationService.decryptMessage(certificate.privateKeyPath(), dto.encryptedMessage());
+        var encryptedClientMessage = authenticationService.encryptMessage(dto.certificate(), randomString);
 
         var clientCheckDto = new ClientCheckRequestDto(
                 decryptedServerMessage,
@@ -121,7 +121,7 @@ public class ClientApp {
         var serverCertificate = certificateRepository.getServerCertificate();
 
         var msg = userInterface.getMessage();
-        var encryptedMessage = authenticationService.encryptMessage(serverCertificate.publicKey(), msg);
+        var encryptedMessage = authenticationService.encryptMessage(serverCertificate.certificate(), msg);
         var dto = new MessageRequestDto(encryptedMessage);
         var request = new RequestBody(ResponseTypeEnum.MESSAGE, dto);
 
@@ -131,7 +131,7 @@ public class ClientApp {
                 userInterface.successMessage("Message sent successfully.");
 
                 MessageResponseDto responseDto = JsonUtils.fromJson(responseBody.getBody(), MessageResponseDto.class);
-                var decryptedMessage = authenticationService.decryptMessage(clientCertificate.privateKey(), responseDto.encryptedServerMessage());
+                var decryptedMessage = authenticationService.decryptMessage(clientCertificate.privateKeyPath(), responseDto.encryptedServerMessage());
 
                 userInterface.successMessage("Response from the server: %s".formatted(decryptedMessage));
                 handleMessage();

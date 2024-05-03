@@ -35,13 +35,13 @@ public class ServerCheckHandler implements CommandHandler {
             ServerCheckRequestDto dto = JsonUtils.fromJson(body, ServerCheckRequestDto.class);
             var sessionId = SessionService.getSessionId(ctx);
 
-            var isCorrectCertificate = authService.isCorrectCertificate(dto.certificate(), dto.publicKey());
+            var isCorrectCertificate = authService.isCorrectCertificate(dto.certificate());
             if (isCorrectCertificate) {
                 sessionService.setCertificateAndPublicKey(sessionId, dto.certificate(), dto.publicKey());
 
                 var randomString = generateRandomString();
                 sessionService.setTestMessage(sessionId, randomString);
-                var encryptedTestMessage = authService.encryptMessage(dto.publicKey(), randomString);
+                var encryptedTestMessage = authService.encryptMessage(dto.certificate(), randomString);
 
                 var serverCertificate = certificateRepository.getCertificate();
                 var response = new ServerCheckResponseDto(
