@@ -61,7 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             var resourceUrl = getClass().getResource(keystorePrivateKeyPath);
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream(resourceUrl.getFile()), "password".toCharArray());
+            keyStore.load(new FileInputStream(resourceUrl.getFile()), password.toCharArray());
 
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.DECRYPT_MODE, keyStore.getKey("1", password.toCharArray()));

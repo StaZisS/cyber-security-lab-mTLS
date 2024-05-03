@@ -8,6 +8,7 @@ import com.cyber.security.lab.handler.CommandType;
 import com.cyber.security.lab.service.SessionService;
 import com.google.inject.Inject;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
@@ -38,5 +39,6 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         socketChannel.pipeline().addLast(new JsonDecoder(), new JsonEncoder());
         socketChannel.pipeline().addLast(new ChunkedWriteHandler());
         socketChannel.pipeline().addLast(new CommandRouter(handlers, sessionService));
+        socketChannel.config().setRecvByteBufAllocator(new FixedRecvByteBufAllocator(1048576));
     }
 }

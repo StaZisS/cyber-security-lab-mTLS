@@ -46,7 +46,7 @@ public class AuthenticationServiceTest {
 
     @Test
     public void encryptAndDecryptMessage() {
-        var publicKey = """
+        var certificate = """
                 -----BEGIN CERTIFICATE-----
                 MIIEuDCCAqACFFYnhy2U/EapQ2JXlOIIEJ5IQaCGMA0GCSqGSIb3DQEBCwUAMCAx
                 HjAcBgNVBAMMFUNlcnRpZmljYXRlIGF1dGhvcml0eTAeFw0yNDA1MDIxNjI4MDJa
@@ -77,7 +77,7 @@ public class AuthenticationServiceTest {
                 -----END CERTIFICATE-----
                 """;
         var message = "Hello, World!";
-        var encryptedMessage = authenticationService.encryptMessage(publicKey, message);
+        var encryptedMessage = authenticationService.encryptMessage(certificate, message);
 
         var decryptedMessage = authenticationService.decryptMessage("/cert/Client-keystore.p12", encryptedMessage);
         assertEquals(decryptedMessage, message);

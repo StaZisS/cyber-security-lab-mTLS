@@ -3,7 +3,6 @@ package com.cyber.security.lab.config;
 import com.cyber.security.lab.body.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
@@ -20,11 +19,8 @@ public class JsonDecoder extends ByteToMessageDecoder {
         in.readBytes(bytes);
 
         String json = new String(bytes, StandardCharsets.UTF_16);
-        try {
-            ResponseBody response = objectMapper.readValue(json, ResponseBody.class);
-            out.add(response);
-        } catch (Exception e) {
-            out.add(Unpooled.wrappedBuffer(bytes));
-        }
+        ResponseBody response = objectMapper.readValue(json, ResponseBody.class);
+        out.add(response);
     }
+
 }

@@ -15,11 +15,10 @@ public class JsonUtils {
     }
 
     public static ResponseTypeEnum getTypeResponseEnum(String value) {
-        for (ResponseTypeEnum responseTypeEnum : ResponseTypeEnum.values()) {
-            if (responseTypeEnum.getValue().equals(value)) {
-                return responseTypeEnum;
-            }
+        try {
+            return ResponseTypeEnum.valueOf(value);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }

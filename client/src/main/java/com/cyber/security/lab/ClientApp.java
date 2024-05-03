@@ -72,11 +72,11 @@ public class ClientApp {
                         }
                         clientCheck(serverCheckResponseDto);
                     } else {
-                        userInterface.showErrorMessage("Server check failed. Reason: %s.".formatted(responseBody.getBody()));
+                        userInterface.showErrorMessage("Server check failed. Reason: %s".formatted(responseBody.getBody()));
                     }
                 })
                 .exceptionally(throwable -> {
-                    userInterface.showErrorMessage("Failed to authenticate. Reason: %s. Please try again.".formatted(throwable.getMessage()));
+                    userInterface.showErrorMessage("Failed to authenticate. Reason: %s Please try again.".formatted(throwable.getMessage()));
                     tryToConnect();
                     return null;
                 });
@@ -105,11 +105,11 @@ public class ClientApp {
                             userInterface.showErrorMessage("Client check failed. Reason: Invalid decrypted message.");
                         }
                     } else {
-                        userInterface.showErrorMessage("Client check failed. Reason: %s.".formatted(responseBody.getBody()));
+                        userInterface.showErrorMessage("Client check failed. Reason: %s".formatted(responseBody.getBody()));
                     }
                 })
                 .exceptionally(throwable -> {
-                    userInterface.showErrorMessage("Failed to authenticate. Reason: %s. Please try again.".formatted(throwable.getMessage()));
+                    userInterface.showErrorMessage("Failed to authenticate. Reason: %s Please try again.".formatted(throwable.getMessage()));
                     tryToConnect();
                     return null;
                 });
@@ -133,10 +133,10 @@ public class ClientApp {
                 MessageResponseDto responseDto = JsonUtils.fromJson(responseBody.getBody(), MessageResponseDto.class);
                 var decryptedMessage = authenticationService.decryptMessage(clientCertificate.privateKeyPath(), responseDto.encryptedServerMessage());
 
-                userInterface.successMessage("Response from the server: %s".formatted(decryptedMessage));
+                userInterface.successMessage("Response from the server:%n encrypted: %s%n decrypted: %s".formatted(dto.encryptedClientMessage(), decryptedMessage));
                 handleMessage();
             } else {
-                userInterface.showErrorMessage("Failed to send the message. Reason: %s.".formatted(responseBody.getBody()));
+                userInterface.showErrorMessage("Failed to send the message. Reason: %s".formatted(responseBody.getBody()));
             }
         });
     }

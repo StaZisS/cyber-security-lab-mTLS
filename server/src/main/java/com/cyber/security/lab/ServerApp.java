@@ -5,6 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -22,7 +23,10 @@ public class ServerApp {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(injector.getInstance(ServerInitializer.class));
+                    .childHandler(injector.getInstance(ServerInitializer.class))
+                    .childOption(ChannelOption.TCP_NODELAY, true)
+                    .childOption(ChannelOption.SO_SNDBUF, 1048576)
+                    .childOption(ChannelOption.SO_RCVBUF, 1048576);
             ChannelFuture future = b.bind(PORT).sync();
             future.channel().closeFuture().sync();
         } catch (Exception e) {

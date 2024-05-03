@@ -4,6 +4,7 @@ import com.cyber.security.lab.body.RequestBody;
 import com.cyber.security.lab.body.ResponseBody;
 import com.cyber.security.lab.utils.Callback;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -17,9 +18,6 @@ public class NetworkImpl implements Network {
 
     private SocketChannel channel;
 
-    private NetworkImpl() {
-    }
-
     @Override
     public void openConnection(Callback callback) {
         if (address == null || port == Integer.MIN_VALUE) {
@@ -31,7 +29,9 @@ public class NetworkImpl implements Network {
                 Bootstrap b = new Bootstrap();
                 b.group(workerGroup)
                         .channel(NioSocketChannel.class)
-                        .handler(new NetworkInitializer());
+                        .handler(new NetworkInitializer())
+                        .option(ChannelOption.SO_SNDBUF, 1048576)
+                        .option(ChannelOption.SO_RCVBUF, 1048576);
                 var future = b.connect(address, port).sync();
                 channel = (SocketChannel) future.channel();
                 callback.onSuccess();
